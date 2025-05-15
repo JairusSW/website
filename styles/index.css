@@ -1,0 +1,32 @@
+body {
+  background-color: #F8F6F9;
+  color: white;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+div {
+  position: fixed;
+  background-color: transparent;
+  border: 1px solid #111111;
+  box-sizing: border-box;
+}
+
+#pages {
+  position: fixed;
+  inset: 20px;
+  background-color: transparent;
+  border: 2px solid #111111;
+  box-sizing: border-box;
+}
+
+#copyright-bar {
+  position: fixed;
+  bottom: 70px;
+  left: -67px;
+  transform: rotate(-90deg);
+  color: #111111;
+}
