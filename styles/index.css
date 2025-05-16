@@ -6,9 +6,19 @@ body {
   margin: 0;
   position: relative;
   overflow: hidden;
+  transform-origin: center center;
+  transition: transform 0.05s linear;
 }
 
-div {
+#arcCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page {
   position: fixed;
   background-color: transparent;
   border: 1px solid #111111;
@@ -17,16 +27,54 @@ div {
 
 #pages {
   position: fixed;
-  inset: 20px;
   background-color: transparent;
   border: 2px solid #111111;
   box-sizing: border-box;
 }
 
-#copyright-bar {
-  position: fixed;
-  bottom: 70px;
-  left: -67px;
-  transform: rotate(-90deg);
-  color: #111111;
+#page1 {
+  background-color: #000000;
+}
+
+#page1 h1 {
+  position: absolute;
+  bottom: 20%; /* Adjust the distance from the bottom */
+  left: 10%;   /* Adjust the distance from the left */
+  font-family: 'Arial', sans-serif;
+  font-size: 300px; /* Adjust the size */
+  font-weight: bold; /* Make it bold */
+  color: white; /* White text */
+  margin: 0; /* Remove default margins */
+}
+
+#page1 h2 {
+  position: absolute;
+  bottom: 12%; /* Position it below the h1 text */
+  left: 10%;   /* Align with the h1 */
+  font-family: 'Arial', sans-serif;
+  font-size: 100px; /* Adjust the size */
+  font-weight: normal; /* Regular weight for this one */
+  color: white; /* White text */
+  margin: 0; /* Remove default margins */
+}
+
+/* Social Icons Styling */
+.social-icons {
+  position: absolute;
+  bottom: 5%; /* Distance from the bottom */
+  left: 10%;  /* Align with the h1 */
+  display: flex;
+  gap: 30%;  /* Space between icons */
+}
+
+.social-icon {
+  font-size: 50px; /* Adjust the size of the icons */
+  color: white; /* White icons */
+  text-decoration: none; /* Remove underline */
+  border: none; /* Remove any borders */
+  outline: none; /* Remove any outlines */
+}
+
+.social-icon:hover {
+  color: #111111; /* Blue hover effect */
 }

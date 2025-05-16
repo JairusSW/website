@@ -3,24 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>...</title>
+    <title>Jairus Tanaka</title>
     <link rel="stylesheet" href="./styles/index.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   </head>
   <body>
+    <div id="pages">
+      <div id="page1">
+        <h1>Hey,</h1>
+        <h2>I'm Jairus Tanaka</h2>
+        <div class="social-icons">
+          <a href="https://github.com/JairusSW" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/jairussw/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+          <a href="mailto:me@jairus.dev" class="social-icon"><i class="fas fa-envelope"></i></a>
+          <a href="https://www.npmjs.com/~jairussw" target="_blank" class="social-icon"><i class="fab fa-npm"></i></a>
+        </div>
+      </div>
+      <div class="page" id="page2"></div>
+      <div class="page" id="page3"></div>
+      <div class="page" id="page4"></div>
+      <div class="page" id="page5"></div>
+      <div class="page" id="page6"></div>
+      <div class="page" id="page7"></div>
+    </div>
     <canvas
       id="arcCanvas"
       style="position: absolute; top: 0; left: 0; z-index: 0"
     ></canvas>
-    <div id="pages">
-      <div id="page1"></div>
-      <div id="page2"></div>
-      <div id="page3"></div>
-      <div id="page4"></div>
-      <div id="page5"></div>
-      <div id="page6"></div>
-      <div id="page7"></div>
-    </div>
-    <p id="copyright-bar">Jairus Tanaka © 2025</p>
     <script src="./scripts/dist/index.js"></script>
   </body>
 </html>

@@ -56,8 +56,8 @@ class PageManager {
     const boxA = fib[fib.length - 1];
     const boxB = fib[fib.length - 2];
     const totalWidth = boxA + boxB;
-    const scaleX = (width - 40) / totalWidth;
-    const scaleY = (height - 40) / boxA;
+    const scaleX = width / totalWidth;
+    const scaleY = height / boxA;
 
     fib = fib.reverse();
 
@@ -69,8 +69,8 @@ class PageManager {
     ];
 
     let dirIndex = -1;
-    let x = 20;
-    let y = 20;
+    let x = 0;
+    let y = 0;
 
     let prevX = fib[0] * scaleX;
     let prevY = fib[0] * scaleY;
@@ -153,159 +153,51 @@ class PageManager {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const duration = 2000; // Animation duration in milliseconds (2 seconds)
-    this.startTime = 0;
+    const directions = [
+      [[0, 1], [1, 0]],  // bottom-left to top-right
+      [[0, 0], [1, 1]],  // top-left to bottom-right
+      [[1, 0], [0, 1]],  // top-right to bottom-left
+      [[1, 1], [0, 0]]   // bottom-right to top-left
+    ];
 
-    // This function captures the exact original path generation logic from your code
-    const drawFullPath = () => {
-      const directions = [
-        [[0, 1], [1, 0]],  // bottom-left to top-right
-        [[0, 0], [1, 1]],  // top-left to bottom-right
-        [[1, 0], [0, 1]],  // top-right to bottom-left
-        [[1, 1], [0, 0]]   // bottom-right to top-left
-      ];
+    const curveOffsets = [
+      [-1, -1],  // bulge to top-left
+      [1, -1],   // bulge to top-right
+      [1, 1],    // bulge to bottom-right
+      [-1, 1]    // bulge to bottom-left
+    ];
 
-      // Offset direction for control points (bulge direction)
-      const curveOffsets = [
-        [-1, -1],  // bulge to top-left
-        [1, -1],   // bulge to top-right
-        [1, 1],    // bulge to bottom-right
-        [-1, 1]    // bulge to bottom-left
-      ];
+    let dirIndex = 0;
 
-      let dirIndex = 0;
+    ctx.beginPath();
 
-      // Create a path object that we can use for drawing
-      const path = new Path2D();
+    for (let i = 0; i < this.pages.length; i++) {
+      const p = this.pages[i];
+      const [ds, de] = directions[dirIndex % 4];
+      const [ox, oy] = curveOffsets[dirIndex % 4];
 
-      // Store all the points, control points, and commands for later animation
-      const commands: { type: 'moveTo' | 'quadraticCurveTo', points: number[] }[] = [];
+      const startX = p.x + (ds[0] * p.width);
+      const startY = p.y + (ds[1] * p.height);
+      const endX = p.x + (de[0] * p.width);
+      const endY = p.y + (de[1] * p.height);
 
-      for (let i = 0; i < this.pages.length; i++) {
-        const p = this.pages[i];
-        const [ds, de] = directions[dirIndex % 4];
-        const [ox, oy] = curveOffsets[dirIndex % 4];
+      const midX = (startX + endX) / 2;
+      const midY = (startY + endY) / 2;
 
-        const startX = p.x + (ds[0] * p.width);
-        const startY = p.y + (ds[1] * p.height);
-        const endX = p.x + (de[0] * p.width);
-        const endY = p.y + (de[1] * p.height);
+      const controlX = midX + (ox * (p.width / 2));
+      const controlY = midY + (oy * (p.height / 2));
 
-        const midX = (startX + endX) / 2;
-        const midY = (startY + endY) / 2;
-
-        const controlX = midX + (ox * (p.width / 2));
-        const controlY = midY + (oy * (p.height / 2));
-
-        // For the first point, we use moveTo
-        if (i === 0) {
-          path.moveTo(startX, startY);
-          commands.push({ type: 'moveTo', points: [startX, startY] });
-        }
-
-        // Draw the curve
-        path.quadraticCurveTo(controlX, controlY, endX, endY);
-        commands.push({ type: 'quadraticCurveTo', points: [controlX, controlY, endX, endY] });
-
-        dirIndex++;
+      if (i === 0) {
+        ctx.moveTo(startX, startY);
       }
 
-      return { path, commands };
-    };
+      ctx.quadraticCurveTo(controlX, controlY, endX, endY);
+      dirIndex++;
+    }
 
-    // Get the full path and its commands
-    const { path, commands } = drawFullPath();
-
-    // Measure total path length (approximate)
-    const totalCommands = commands.length;
-    const pointsPerCommand = commands.reduce((sum, cmd) => {
-      return sum + (cmd.type === 'quadraticCurveTo' ? 1 : 0);
-    }, 0);
-
-    // Animation function
-    const animate = (timestamp: number) => {
-      if (!this.startTime) this.startTime = timestamp;
-      const elapsed = timestamp - this.startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // Clear the canvas
-      ctx.clearRect(0, 0, width, height);
-
-      // Start a new path
-      ctx.beginPath();
-
-      // Get position in the command list
-      const commandPosition = progress * totalCommands;
-      const completeCommands = Math.floor(commandPosition);
-      const partialCommandProgress = commandPosition - completeCommands;
-
-      // Execute all complete commands
-      for (let i = 0; i < completeCommands; i++) {
-        const cmd = commands[i];
-        if (cmd.type === 'moveTo') {
-          ctx.moveTo(cmd.points[0], cmd.points[1]);
-        } else if (cmd.type === 'quadraticCurveTo') {
-          ctx.quadraticCurveTo(cmd.points[0], cmd.points[1], cmd.points[2], cmd.points[3]);
-        }
-      }
-
-      // Draw partial last command if not at the end
-      if (completeCommands < commands.length && partialCommandProgress > 0) {
-        const lastCmd = commands[completeCommands];
-
-        if (lastCmd.type === 'moveTo') {
-          ctx.moveTo(lastCmd.points[0], lastCmd.points[1]);
-        } else if (lastCmd.type === 'quadraticCurveTo') {
-          // For quadratic curve, calculate the point along the curve
-          const t = partialCommandProgress;
-          const mt = 1 - t;
-
-          // Get the current point (where we are now)
-          const previousCmd = commands[completeCommands - 1];
-          let currentX = 0, currentY = 0;
-
-          if (previousCmd.type === 'moveTo') {
-            currentX = previousCmd.points[0];
-            currentY = previousCmd.points[1];
-          } else {
-            currentX = previousCmd.points[2]; // End X of previous quadratic curve
-            currentY = previousCmd.points[3]; // End Y of previous quadratic curve
-          }
-
-          // Control point from current command
-          const controlX = lastCmd.points[0];
-          const controlY = lastCmd.points[1];
-
-          // End point from current command
-          const endX = lastCmd.points[2];
-          const endY = lastCmd.points[3];
-
-          // Calculate point along the curve
-          const pointX = Math.pow(1 - t, 2) * currentX +
-            2 * (1 - t) * t * controlX +
-            Math.pow(t, 2) * endX;
-
-          const pointY = Math.pow(1 - t, 2) * currentY +
-            2 * (1 - t) * t * controlY +
-            Math.pow(t, 2) * endY;
-
-          // Draw up to this intermediate point
-          ctx.quadraticCurveTo(controlX, controlY, pointX, pointY);
-        }
-      }
-
-      // Set line style
-      ctx.strokeStyle = "#111111";
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    // Start the animation
-    requestAnimationFrame(animate);
+    ctx.strokeStyle = "#222222";
+    ctx.lineWidth = 2;
+    ctx.stroke();
   }
 }
 
@@ -324,5 +216,6 @@ onload = () => {
   ]
   const man = new PageManager();
   man.pages = pages;
-  man.drawPages()
+  man.drawPages();
+
 }
