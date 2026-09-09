@@ -1,35 +1,168 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jairus Tanaka</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Jairus Tanaka builds fast, elegant software at the edge of compilers, WebAssembly, and systems." />
+    <meta name="theme-color" content="#c19a57" />
+    <meta property="og:title" content="Jairus Tanaka — software, close to the metal" />
+    <meta property="og:description" content="Compilers, WebAssembly, performance, and open-source tools." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jairus.dev/" />
+    <meta property="og:image" content="https://jairus.dev/og-editorial.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Jairus Tanaka — software, close to the metal" />
+    <meta name="twitter:description" content="Compilers, WebAssembly, performance, and open-source tools." />
+    <meta name="twitter:image" content="https://jairus.dev/og-editorial.png" />
+    <title>Jairus Tanaka — software, close to the metal</title>
+    <link rel="icon" type="image/png" href="./og-editorial.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles/index.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   </head>
   <body>
-    <div id="pages">
-      <div id="page1">
-        <h1>Hey,</h1>
-        <h2>I'm Jairus Tanaka</h2>
-        <div class="social-icons">
-          <a href="https://github.com/JairusSW" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/jairussw/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
-          <a href="mailto:me@jairus.dev" class="social-icon"><i class="fas fa-envelope"></i></a>
-          <a href="https://www.npmjs.com/~jairussw" target="_blank" class="social-icon"><i class="fab fa-npm"></i></a>
-        </div>
-      </div>
-      <div class="page" id="page2"></div>
-      <div class="page" id="page3"></div>
-      <div class="page" id="page4"></div>
-      <div class="page" id="page5"></div>
-      <div class="page" id="page6"></div>
-      <div class="page" id="page7"></div>
+    <a class="skip-link" href="#panel-0">Skip to portfolio</a>
+
+    <div class="boot" aria-hidden="true">
+      <div class="boot__mark">JT</div>
+      <div class="boot__spiral"><i></i><i></i><i></i><i></i><i></i></div>
     </div>
-    <canvas
-      id="arcCanvas"
-      style="position: absolute; top: 0; left: 0; z-index: 0"
-    ></canvas>
+
+    <canvas class="spiral-line" id="arcCanvas" aria-hidden="true"></canvas>
+
+    <aside class="edge-message" aria-hidden="true">
+      <p id="edgeGreeting">Hello.</p>
+      <div><a href="mailto:me@jairus.dev">Email</a><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">GitHub</a></div>
+    </aside>
+
+    <main class="viewport" aria-label="Jairus Tanaka portfolio">
+      <div class="spiral" id="spiral">
+        <section class="panel is-active" id="panel-0" data-label="Introduction" data-bg="#efe8da" data-fg="#1f2d3a" tabindex="-1">
+          <div class="panel__inner intro">
+            <div class="brand" aria-label="Jairus Tanaka">JT</div>
+            <p class="warning"><strong>Note:</strong> this portfolio moves in a spiral. <button type="button" data-mode><span data-mode-text>More</span> accessible version.</button></p>
+            <div class="intro__copy">
+              <p>I build fast, elegant software close to the metal—compilers, WebAssembly runtimes, and the tools around them.</p>
+              <a href="mailto:me@jairus.dev">Available for the right problem.</a>
+            </div>
+            <h1 class="title"><span>Jairus</span><span>Tanaka</span><span class="accent">builds.</span></h1>
+            <button class="scroll-cue" type="button" data-next><span class="scroll-cue__spiral" aria-hidden="true"></span><strong>Scroll</strong><small>↓ →</small></button>
+          </div>
+        </section>
+
+        <article class="panel project" id="panel-1" data-label="Wago" data-bg="#1f2d3a" data-fg="#efe8da" data-tags="JIT compiler|Pure Go|Plugin system|Native code" tabindex="-1">
+          <div class="panel__inner">
+            <div class="panel__meta"><span>01 / Flagship</span><span>Go · WebAssembly</span></div>
+            <p class="panel__description">A pure-Go, no-cgo WebAssembly JIT built around fast compilation, native execution, and a capability-aware plugin system.</p>
+            <div class="panel__bottom">
+              <div><p class="eyebrow">Creator &amp; maintainer</p><h2 class="title"><span>Wa</span><span>go</span></h2></div>
+              <div class="panel__actions">
+                <div class="links"><a href="https://wago.sh/" target="_blank" rel="noreferrer">Website ↗</a><a href="https://docs.wago.sh/" target="_blank" rel="noreferrer">Docs ↗</a><a href="https://github.com/wago-org/wago" target="_blank" rel="noreferrer">Source ↗</a></div>
+                <button class="view-button" type="button" data-view><span class="view-button__eye" aria-hidden="true"><i></i></span><strong>View</strong></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel project" id="panel-2" data-label="json-as" data-bg="#6f8798" data-fg="#f4efe4" data-tags="Multi-GB/s|SIMD|SWAR|AssemblyScript" tabindex="-1">
+          <div class="panel__inner">
+            <div class="panel__meta"><span>02 / Open source</span><span>SIMD · SWAR</span></div>
+            <p class="panel__description">Multi-GB/s JSON serialization for AssemblyScript, using carefully chosen SIMD and SWAR algorithms.</p>
+            <div class="panel__bottom">
+              <div><p class="eyebrow">Performance without mystery</p><h2 class="title"><span>json</span><span class="accent">-as</span></h2></div>
+              <div class="panel__actions">
+                <div class="links"><a href="https://docs.jairus.dev/json-as/" target="_blank" rel="noreferrer">Docs ↗</a><a href="https://github.com/JairusSW/json-as" target="_blank" rel="noreferrer">Source ↗</a><a href="https://www.npmjs.com/package/json-as" target="_blank" rel="noreferrer">npm ↗</a></div>
+                <button class="view-button" type="button" data-view><span class="view-button__eye" aria-hidden="true"><i></i></span><strong>View</strong></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel project" id="panel-3" data-label="Impart" data-bg="#7b4d57" data-fg="#f4efe4" data-tags="Application security|Product engineering|Performance|Systems" tabindex="-1">
+          <div class="panel__inner">
+            <div class="panel__meta"><span>03 / Work</span><span>Security · Systems</span></div>
+            <p class="panel__description">Building elegant, performant software for a modern application security platform.</p>
+            <div class="panel__bottom">
+              <div><p class="eyebrow">Software engineer</p><h2 class="title"><span>Im</span><span>part</span></h2></div>
+              <div class="panel__actions">
+                <div class="links"><a href="https://www.impart.ai/" target="_blank" rel="noreferrer">Company ↗</a><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">Experience ↗</a></div>
+                <button class="view-button" type="button" data-view><span class="view-button__eye" aria-hidden="true"><i></i></span><strong>View</strong></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel project" id="panel-4" data-label="Tools" data-bg="#607368" data-fg="#f4efe4" data-tags="as-test|Wide SIMD|Zep compiler|AssemblyScript" tabindex="-1">
+          <div class="panel__inner">
+            <div class="panel__meta"><span>04 / More projects</span><span>Made in public</span></div>
+            <ul class="tool-list panel__description">
+              <li><a href="https://github.com/JairusSW/as-test" target="_blank" rel="noreferrer"><strong>as-test</strong><span>Testing for AssemblyScript ↗</span></a></li>
+              <li><a href="https://github.com/JairusSW/wide" target="_blank" rel="noreferrer"><strong>Wide</strong><span>Portable v256 / v512 SIMD ↗</span></a></li>
+              <li><a href="https://github.com/JairusSW/Zep" target="_blank" rel="noreferrer"><strong>Zep</strong><span>A homebrew compiler ↗</span></a></li>
+            </ul>
+            <div class="panel__bottom">
+              <div><p class="eyebrow">A growing systems toolkit</p><h2 class="title"><span>Open</span><span>tools.</span></h2></div>
+              <div class="panel__actions">
+                <div class="links"><a href="https://github.com/JairusSW?tab=repositories" target="_blank" rel="noreferrer">All projects ↗</a></div>
+                <button class="view-button" type="button" data-view><span class="view-button__eye" aria-hidden="true"><i></i></span><strong>View</strong></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel project" id="panel-5" data-label="Writing and docs" data-bg="#c19a57" data-fg="#1f2d3a" data-tags="Benchmarks|Algorithms|Documentation|Notes" tabindex="-1">
+          <div class="panel__inner">
+            <div class="panel__meta"><span>05 / Notes</span><span>Ideas, explained</span></div>
+            <p class="panel__description">Benchmarks, low-level techniques, and documentation for the things I ship.</p>
+            <div class="panel__bottom">
+              <div><p class="eyebrow">Write it down</p><h2 class="title"><span>Docs</span><span>&amp; words.</span></h2></div>
+              <div class="panel__actions">
+                <div class="links"><a href="https://blog.jairus.dev/" target="_blank" rel="noreferrer">Blog ↗</a><a href="https://docs.jairus.dev/" target="_blank" rel="noreferrer">Project docs ↗</a><a href="https://docs.wago.sh/" target="_blank" rel="noreferrer">Wago docs ↗</a></div>
+                <button class="view-button" type="button" data-view><span class="view-button__eye" aria-hidden="true"><i></i></span><strong>View</strong></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <section class="panel contact" id="panel-6" data-label="Contact" data-bg="#29343c" data-fg="#efe8da" tabindex="-1">
+          <div class="panel__inner">
+            <div class="panel__meta"><span>06 / The center</span><span>Poulsbo, WA</span></div>
+            <p class="panel__description">Compilers, WebAssembly, performance, or an unusually hard systems problem—I’d like to hear about it.</p>
+            <div class="panel__bottom">
+              <div><p class="eyebrow">You made it.</p><h2 class="title"><span>Let's</span><span>build</span><span class="accent">fast.</span></h2></div>
+              <div class="panel__actions"><div class="links"><a href="mailto:me@jairus.dev">Email ↗</a><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="https://www.npmjs.com/~jairussw" target="_blank" rel="noreferrer">npm ↗</a></div></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <nav class="progress" aria-label="Portfolio sections">
+      <span class="progress__count"><b id="current">1</b> / <b id="total">7</b></span>
+      <div class="progress__dots" id="dots"></div>
+    </nav>
+
+    <nav class="controls" aria-label="Portfolio navigation">
+      <button type="button" data-prev aria-label="Previous section">←</button>
+      <span id="label">Introduction</span>
+      <button type="button" data-next aria-label="Next section">→</button>
+      <button type="button" data-mode aria-pressed="false"><span data-mode-text>More</span> accessible</button>
+    </nav>
+
+    <div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="detailTitle" hidden>
+      <button class="detail__close" type="button" aria-label="Close project details">×</button>
+      <div class="detail__grid" id="detailGrid"></div>
+      <div class="detail__copy">
+        <p class="eyebrow" id="detailEyebrow">Project</p>
+        <h2 id="detailTitle"></h2>
+        <p id="detailDescription"></p>
+        <div class="links" id="detailLinks"></div>
+      </div>
+    </div>
+
     <script src="./scripts/dist/index.js"></script>
   </body>
 </html>

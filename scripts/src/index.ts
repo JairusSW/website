@@ -1,221 +1,304 @@
-const height = window.innerHeight;
-const width = window.innerWidth;
+const PHI = 0.618033;
+const AXIS = 0.7237;
+const panels = Array.from(document.querySelectorAll<HTMLElement>(".panel"));
+const spiral = document.querySelector<HTMLElement>("#spiral");
+const canvas = document.querySelector<HTMLCanvasElement>("#arcCanvas");
+const currentNode = document.querySelector<HTMLElement>("#current");
+const totalNode = document.querySelector<HTMLElement>("#total");
+const labelNode = document.querySelector<HTMLElement>("#label");
+const dotsNode = document.querySelector<HTMLElement>("#dots");
+const edgeGreeting = document.querySelector<HTMLElement>("#edgeGreeting");
+const detail = document.querySelector<HTMLElement>("#detail");
+const detailTitle = document.querySelector<HTMLElement>("#detailTitle");
+const detailDescription = document.querySelector<HTMLElement>("#detailDescription");
+const detailLinks = document.querySelector<HTMLElement>("#detailLinks");
+const detailGrid = document.querySelector<HTMLElement>("#detailGrid");
+const detailClose = document.querySelector<HTMLButtonElement>(".detail__close");
 
-type Point = { x: number; y: number };
+let rotation = 0;
+let currentSection = 0;
+let animationFrame = 0;
+let snapTimer = 0;
+let resizeTimer = 0;
+let listMode = false;
+let detailOpen = false;
+let touchX = 0;
+let touchY = 0;
+let touchVelocity = 0;
 
-class Page {
-  public height: number = 0;
-  public width: number = 0;
-  public x: number = 0;
-  public y: number = 0;
-  public node: HTMLElement | null;
+function clamp(value: number, minimum: number, maximum: number): number {
+  return Math.max(minimum, Math.min(maximum, value));
+}
 
-  constructor(node: HTMLElement | null) {
-    this.node = node;
+function panelColor(panel: HTMLElement, name: "bg" | "fg"): string {
+  return panel.dataset[name] || (name === "bg" ? "#efe8da" : "#1f2d3a");
+}
+
+function buildSpiral(): void {
+  if (!spiral || listMode) return;
+  const portrait = window.innerWidth < 960 && window.innerHeight > window.innerWidth;
+  const originX = portrait ? window.innerWidth * (1 - AXIS) : window.innerWidth * AXIS;
+  const originY = portrait ? (window.innerWidth / PHI) * AXIS : window.innerWidth * PHI * AXIS;
+  const size = portrait ? window.innerWidth : window.innerWidth * PHI;
+  const origin = `${Math.floor(originX)}px ${Math.floor(originY)}px`;
+
+  spiral.style.transformOrigin = origin;
+  panels.forEach((panel, index) => {
+    panel.style.width = `${size}px`;
+    panel.style.height = `${size}px`;
+    panel.style.transformOrigin = origin;
+    panel.style.transform = `rotate(${90 * index}deg) scale(${Math.pow(PHI, index)}) translate3d(0,0,0)`;
+    panel.style.setProperty("--panel-bg", panelColor(panel, "bg"));
+    panel.style.setProperty("--panel-fg", panelColor(panel, "fg"));
+  });
+  drawGuide();
+  updateSpiral();
+}
+
+function drawGuide(): void {
+  if (!canvas || listMode) return;
+  const ratio = window.devicePixelRatio || 1;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  canvas.width = Math.round(width * ratio);
+  canvas.height = Math.round(height * ratio);
+  const context = canvas.getContext("2d");
+  if (!context) return;
+  context.scale(ratio, ratio);
+  context.clearRect(0, 0, width, height);
+  context.beginPath();
+
+  const portrait = width < 960 && height > width;
+  const centerX = portrait ? width * (1 - AXIS) : width * AXIS;
+  const centerY = portrait ? (width / PHI) * AXIS : width * PHI * AXIS;
+  const maxRadius = Math.max(width, height) * 1.15;
+  for (let step = 0; step <= 260; step += 1) {
+    const angle = -Math.PI * .2 + step * .055;
+    const radius = maxRadius * Math.exp(-.19 * angle);
+    const x = centerX + Math.cos(angle) * radius;
+    const y = centerY + Math.sin(angle) * radius;
+    if (step === 0) context.moveTo(x, y); else context.lineTo(x, y);
+  }
+  const active = panels[clamp(currentSection, 0, panels.length - 1)];
+  context.strokeStyle = panelColor(active, "fg");
+  context.lineWidth = 1.25;
+  context.stroke();
+}
+
+function sectionFromRotation(): number {
+  return Math.floor((rotation - 30) / -90);
+}
+
+function updateSpiral(): void {
+  if (!spiral || listMode) return;
+  const scale = Math.pow(PHI, rotation / 90);
+  spiral.style.transform = `rotate(${rotation}deg) scale(${scale})`;
+  const rawSection = sectionFromRotation();
+  const nextSection = clamp(rawSection, 0, panels.length - 1);
+  const sectionChanged = nextSection !== currentSection;
+  currentSection = nextSection;
+
+  const active = panels[currentSection];
+  const background = panelColor(active, "bg");
+  const foreground = panelColor(active, "fg");
+  document.documentElement.style.setProperty("--active-bg", background);
+  document.documentElement.style.setProperty("--active-fg", foreground);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", background);
+
+  panels.forEach((panel, index) => {
+    panel.classList.toggle("is-active", index === currentSection && rawSection >= 0 && rawSection < panels.length);
+    panel.style.display = index < currentSection - 1 ? "none" : "block";
+    panel.setAttribute("aria-hidden", index === currentSection ? "false" : "true");
+  });
+
+  if (currentNode) currentNode.textContent = rawSection < 0 || rawSection >= panels.length ? "LOST" : String(currentSection + 1);
+  if (labelNode) labelNode.textContent = active.dataset.label || "Section";
+  document.querySelectorAll<HTMLElement>(".progress__dots button").forEach((dot, index) => dot.classList.toggle("is-active", index === currentSection));
+
+  const spiraling = rawSection < 0 || rawSection >= panels.length;
+  document.body.classList.toggle("is-spiraling", spiraling);
+  if (edgeGreeting) edgeGreeting.textContent = rawSection < 0 ? "Hello." : "Goodbye.";
+  spiral.style.pointerEvents = rawSection >= panels.length ? "none" : "auto";
+  if (sectionChanged) {
+    document.title = `${active.dataset.label || "Portfolio"} — Jairus Tanaka`;
+    drawGuide();
   }
 }
 
-class PageManager {
-  public pages: Page[] = [];
-  public startTime: number = 0;
-
-  addPage(page: Page): void {
-    this.pages.push(page);
-  }
-
-  drawPages(): void {
-    console.log("Drawing pages!");
-    const pages = this.calcPositions();
-    for (const page of pages) {
-      const el = page.node as HTMLElement;
-      if (!el) {
-        console.log("Could not find element")
-        continue;
+function animateTo(target: number, focus = false): void {
+  window.cancelAnimationFrame(animationFrame);
+  const tick = (): void => {
+    const distance = target - rotation;
+    if (Math.abs(distance) <= .08) {
+      rotation = target;
+      updateSpiral();
+      if (focus && target <= 0 && target >= (panels.length - 1) * -90) {
+        panels[clamp(Math.round(target / -90), 0, panels.length - 1)].focus({ preventScroll: true });
       }
-
-      el.style.left = `${page.x}px`;
-      el.style.top = `${page.y}px`;
-      el.style.width = `${page.width}px`;
-      el.style.height = `${page.height}px`;
+      return;
     }
-
-    this.drawCurve();
-  }
-
-  calcPositions(): Page[] {
-    let fib: number[] = [0, 1];
-
-    let i = 2;
-    while (true) {
-      const val = fib[i - 1] + fib[i - 2];
-      if (val + fib[i - 1] >= width) break;
-      fib[i] = val;
-      i++;
-    }
-
-    const boxA = fib[fib.length - 1];
-    const boxB = fib[fib.length - 2];
-    const totalWidth = boxA + boxB;
-    const scaleX = width / totalWidth;
-    const scaleY = height / boxA;
-
-    fib = fib.reverse();
-
-    const directions = [
-      [1, 0],   // right
-      [0, 1],   // down
-      [-1, 0],  // left
-      [0, -1],  // up
-    ];
-
-    let dirIndex = -1;
-    let x = 0;
-    let y = 0;
-
-    let prevX = fib[0] * scaleX;
-    let prevY = fib[0] * scaleY;
-
-    const end = this.pages.length - 1;
-    for (let i = 0; i < end; i++) {
-      const sizeX = fib[i] * scaleX;
-      const sizeY = fib[i] * scaleY;
-      const page = this.pages[i];
-
-      page.width = sizeX;
-      page.height = sizeY;
-
-      if (dirIndex >= 0) {
-        const [dx, dy] = directions[dirIndex % 4];
-        x += dx * prevX;
-        y += dy * prevY;
-
-        if (dirIndex == 0) {
-          // x -= prevX - sizeX;
-        } else if (dirIndex == 1) {
-          x += prevX - sizeX;
-        } else if (dirIndex == 2) {
-          x += prevX - sizeX;
-          y += prevY - sizeY;
-        } else if (dirIndex == 3) {
-          y += prevY - sizeY;
-        }
-      }
-
-      if (dirIndex >= 3) dirIndex = -1;
-      dirIndex++;
-
-      page.x = x;
-      page.y = y;
-
-      prevX = sizeX;
-      prevY = sizeY;
-    }
-
-    const sizeX = prevX;
-    const sizeY = this.pages[end - 2].height - prevY;
-    const page = this.pages[end];
-
-    page.width = sizeX;
-    page.height = sizeY;
-
-    if (dirIndex >= 0) {
-      const [dx, dy] = directions[dirIndex % 4];
-      x += dx * prevX;
-      y += dy * prevY;
-
-      if (dirIndex == 0) {
-        // x -= prevX - sizeX;
-      } else if (dirIndex == 1) {
-        x += prevX - sizeX;
-      } else if (dirIndex == 2) {
-        x += prevX - sizeX;
-        y += prevY - sizeY;
-      } else if (dirIndex == 3) {
-        y += prevY - sizeY;
-      }
-    }
-
-    if (dirIndex >= 3) dirIndex = -1;
-    dirIndex++;
-
-    page.x = x;
-    page.y = y;
-
-    return this.pages;
-  }
-  drawCurve(): void {
-    const canvas = document.getElementById("arcCanvas") as HTMLCanvasElement;
-    if (!canvas) return;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const directions = [
-      [[0, 1], [1, 0]],  // bottom-left to top-right
-      [[0, 0], [1, 1]],  // top-left to bottom-right
-      [[1, 0], [0, 1]],  // top-right to bottom-left
-      [[1, 1], [0, 0]]   // bottom-right to top-left
-    ];
-
-    const curveOffsets = [
-      [-1, -1],  // bulge to top-left
-      [1, -1],   // bulge to top-right
-      [1, 1],    // bulge to bottom-right
-      [-1, 1]    // bulge to bottom-left
-    ];
-
-    let dirIndex = 0;
-
-    ctx.beginPath();
-
-    for (let i = 0; i < this.pages.length; i++) {
-      const p = this.pages[i];
-      const [ds, de] = directions[dirIndex % 4];
-      const [ox, oy] = curveOffsets[dirIndex % 4];
-
-      const startX = p.x + (ds[0] * p.width);
-      const startY = p.y + (ds[1] * p.height);
-      const endX = p.x + (de[0] * p.width);
-      const endY = p.y + (de[1] * p.height);
-
-      const midX = (startX + endX) / 2;
-      const midY = (startY + endY) / 2;
-
-      const controlX = midX + (ox * (p.width / 2));
-      const controlY = midY + (oy * (p.height / 2));
-
-      if (i === 0) {
-        ctx.moveTo(startX, startY);
-      }
-
-      ctx.quadraticCurveTo(controlX, controlY, endX, endY);
-      dirIndex++;
-    }
-
-    ctx.strokeStyle = "#222222";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  }
+    rotation += distance * .16;
+    updateSpiral();
+    animationFrame = window.requestAnimationFrame(tick);
+  };
+  tick();
 }
 
-onload = () => {
-  console.log("Loaded");
-  const pages = [
-    new Page(document.getElementById("page1")),
-    new Page(document.getElementById("page2")),
-    new Page(document.getElementById("page3")),
-    new Page(document.getElementById("page4")),
-    new Page(document.getElementById("page5")),
-    new Page(document.getElementById("page6")),
-    new Page(document.getElementById("page7")),
-    // new Page(document.getElementById("page8")),
-    // new Page(document.getElementById("page9")),
-  ]
-  const man = new PageManager();
-  man.pages = pages;
-  man.drawPages();
-
+function goTo(index: number, focus = false, allowEdge = false): void {
+  const minimum = allowEdge ? -1 : 0;
+  const maximum = allowEdge ? panels.length : panels.length - 1;
+  animateTo(clamp(index, minimum, maximum) * -90, focus);
 }
+
+function scheduleSnap(): void {
+  window.clearTimeout(snapTimer);
+  snapTimer = window.setTimeout(() => {
+    const rawTarget = sectionFromRotation();
+    if (rawTarget < 0 || rawTarget >= panels.length) return;
+    const target = clamp(rawTarget, 0, panels.length - 1);
+    animateTo(target * -90);
+  }, 220);
+}
+
+function setListMode(enabled: boolean): void {
+  listMode = enabled;
+  document.body.classList.toggle("list-mode", enabled);
+  document.querySelectorAll<HTMLButtonElement>("[data-mode]").forEach((button) => button.setAttribute("aria-pressed", String(enabled)));
+  document.querySelectorAll<HTMLElement>("[data-mode-text]").forEach((node) => { node.textContent = enabled ? "Less" : "More"; });
+  panels.forEach((panel) => {
+    panel.style.display = "block";
+    panel.setAttribute("aria-hidden", "false");
+  });
+  if (!enabled) buildSpiral();
+}
+
+function openDetail(panel: HTMLElement): void {
+  if (!detail || !detailTitle || !detailDescription || !detailLinks || !detailGrid) return;
+  detailOpen = true;
+  detailTitle.textContent = panel.dataset.label || "Project";
+  detailDescription.textContent = panel.querySelector<HTMLElement>(".panel__description")?.textContent?.trim() || "";
+  detailLinks.innerHTML = panel.querySelector<HTMLElement>(".links")?.innerHTML || "";
+  detailGrid.innerHTML = "";
+  (panel.dataset.tags || "Build|Measure|Refine|Ship").split("|").slice(0, 4).forEach((tag) => {
+    const tile = document.createElement("div");
+    tile.className = "detail__tile";
+    tile.textContent = tag;
+    detailGrid.appendChild(tile);
+  });
+  detail.hidden = false;
+  document.body.classList.add("is-detail");
+  window.requestAnimationFrame(() => detail.classList.add("is-open"));
+  detailClose?.focus();
+}
+
+function closeDetail(): void {
+  if (!detail) return;
+  detailOpen = false;
+  detail.classList.remove("is-open");
+  detail.hidden = true;
+  document.body.classList.remove("is-detail");
+  panels[currentSection].focus({ preventScroll: true });
+}
+
+function makeDots(): void {
+  if (!dotsNode) return;
+  dotsNode.innerHTML = "";
+  panels.forEach((panel, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = index === 0 ? "is-active" : "";
+    button.setAttribute("aria-label", `Go to ${panel.dataset.label || `section ${index + 1}`}`);
+    button.addEventListener("click", () => goTo(index, true));
+    dotsNode.appendChild(button);
+  });
+}
+
+if (totalNode) totalNode.textContent = String(panels.length);
+makeDots();
+buildSpiral();
+window.setTimeout(() => document.body.classList.add("is-ready"), 850);
+
+window.addEventListener("wheel", (event) => {
+  if (listMode || detailOpen) return;
+  event.preventDefault();
+  window.cancelAnimationFrame(animationFrame);
+  rotation -= clamp(event.deltaY / 6, -10, 10);
+  rotation = clamp(rotation, -90 * (panels.length + 2), 180);
+  updateSpiral();
+  scheduleSnap();
+}, { passive: false });
+
+window.addEventListener("touchstart", (event) => {
+  if (listMode || detailOpen) return;
+  const touch = event.touches[0];
+  if (!touch) return;
+  touchX = touch.clientX;
+  touchY = touch.clientY;
+  touchVelocity = 0;
+  window.cancelAnimationFrame(animationFrame);
+}, { passive: true });
+
+window.addEventListener("touchmove", (event) => {
+  if (listMode || detailOpen) return;
+  const touch = event.touches[0];
+  if (!touch) return;
+  event.preventDefault();
+  const movement = (touchY - touch.clientY) + (touchX - touch.clientX) / 2;
+  touchVelocity = movement;
+  rotation -= movement / 3.5;
+  rotation = clamp(rotation, -90 * (panels.length + 2), 180);
+  touchX = touch.clientX;
+  touchY = touch.clientY;
+  updateSpiral();
+}, { passive: false });
+
+window.addEventListener("touchend", () => {
+  if (listMode || detailOpen) return;
+  const section = sectionFromRotation();
+  const target = touchVelocity > 8 ? section + 1 : touchVelocity < -8 ? section - 1 : section;
+  goTo(target, false, true);
+}, { passive: true });
+
+window.addEventListener("keydown", (event) => {
+  if (detailOpen) {
+    if (event.key === "Escape") closeDetail();
+    return;
+  }
+  if (listMode) return;
+  if (["ArrowRight", "ArrowDown", "PageDown", " "].indexOf(event.key) !== -1) {
+    event.preventDefault();
+    goTo(sectionFromRotation() + 1, true, true);
+  } else if (["ArrowLeft", "ArrowUp", "PageUp"].indexOf(event.key) !== -1) {
+    event.preventDefault();
+    goTo(sectionFromRotation() - 1, true, true);
+  } else if (event.key === "Home") {
+    event.preventDefault();
+    goTo(0, true);
+  } else if (event.key === "End") {
+    event.preventDefault();
+    goTo(panels.length - 1, true);
+  }
+});
+
+document.querySelectorAll<HTMLElement>("[data-next]").forEach((button) => button.addEventListener("click", (event) => { event.stopPropagation(); goTo(sectionFromRotation() + 1, true, true); }));
+document.querySelectorAll<HTMLElement>("[data-prev]").forEach((button) => button.addEventListener("click", (event) => { event.stopPropagation(); goTo(sectionFromRotation() - 1, true, true); }));
+document.querySelectorAll<HTMLElement>("[data-mode]").forEach((button) => button.addEventListener("click", (event) => { event.stopPropagation(); setListMode(!listMode); }));
+document.querySelectorAll<HTMLElement>("[data-view]").forEach((button) => button.addEventListener("click", (event) => { event.stopPropagation(); const panel = button.closest<HTMLElement>(".panel"); if (panel?.classList.contains("is-active")) openDetail(panel); }));
+
+panels.forEach((panel, index) => panel.addEventListener("click", (event) => {
+  if (listMode || (event.target as HTMLElement).closest("a, button")) return;
+  goTo(index, true);
+}));
+
+detailClose?.addEventListener("click", closeDetail);
+detail?.addEventListener("click", (event) => { if (event.target === detail) closeDetail(); });
+canvas?.addEventListener("click", () => { if (document.body.classList.contains("is-spiraling")) goTo(0, true); });
+window.addEventListener("mousemove", (event) => {
+  if (!detailOpen || !detailClose || window.innerWidth < 960) return;
+  detailClose.style.transform = `translate3d(${event.clientX - window.innerWidth + 32}px, ${event.clientY - 32}px, 0)`;
+});
+
+window.addEventListener("resize", () => {
+  window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(buildSpiral, 100);
+});

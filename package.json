@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "build": "tsc -p scripts/tsconfig.json"
+  },
   "dependencies": {
     "typescript": "^5.8.3"
   }
