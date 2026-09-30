@@ -15,7 +15,7 @@ const detailLinks = document.querySelector<HTMLElement>("#detailLinks");
 const detailGrid = document.querySelector<HTMLElement>("#detailGrid");
 const detailClose = document.querySelector<HTMLButtonElement>(".detail__close");
 
-let rotation = 0;
+let rotation = 90;
 let currentSection = 0;
 let animationFrame = 0;
 let snapTimer = 0;
