@@ -68,6 +68,8 @@ button { border: 0; }
 
 .title { margin: 0; font-size: clamp(3.2rem, 8vw, 9rem); line-height: .82; letter-spacing: -.075em; }
 .title span { display: block; }
+.title--single { white-space: nowrap; }
+.title--single span { display: inline; }
 .intro .title { position: absolute; bottom: var(--pad); left: var(--pad); }
 .eyebrow, .panel__meta, .links, .progress, .controls, .tool-list span { font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .055em; }
 .eyebrow { margin: 0 0 .7rem; font-size: clamp(.48rem, .65vw, .72rem); }
