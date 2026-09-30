@@ -110,6 +110,7 @@ button { border: 0; }
 .is-spiraling .edge-message { opacity: 1; visibility: visible; }
 .is-spiraling .edge-message a { pointer-events: auto; }
 .edge-message p { margin: 0 0 1rem; font-size: clamp(5rem, 15vw, 15rem); font-weight: 800; line-height: .8; letter-spacing: -.08em; }
+.edge-message p.has-solid-shadow { text-shadow: .065em .08em 0 #fff; }
 .edge-message div { display: flex; gap: 1.5rem; font-family: "DM Mono", monospace; text-transform: uppercase; }
 
 .progress { position: fixed; z-index: 100; top: 8vh; right: 2vw; display: flex; flex-direction: column; align-items: center; gap: 1rem; color: var(--active-fg); font-size: .62rem; transition: color .2s; }

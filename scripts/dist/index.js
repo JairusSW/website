@@ -116,8 +116,10 @@ function updateSpiral() {
     document.querySelectorAll(".progress__dots button").forEach((dot, index) => dot.classList.toggle("is-active", index === currentSection));
     const spiraling = rawSection < 0 || rawSection >= panels.length;
     document.body.classList.toggle("is-spiraling", spiraling);
-    if (edgeGreeting)
+    if (edgeGreeting) {
         edgeGreeting.textContent = rawSection < 0 ? "Hello." : "Goodbye.";
+        edgeGreeting.classList.toggle("has-solid-shadow", rawSection >= panels.length);
+    }
     spiral.style.pointerEvents = rawSection >= panels.length ? "none" : "auto";
     if (sectionChanged) {
         document.title = `${active.dataset.label || "Portfolio"} — Jairus Tanaka`;
