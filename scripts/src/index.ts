@@ -9,6 +9,7 @@ const labelNode = document.querySelector<HTMLElement>("#label");
 const dotsNode = document.querySelector<HTMLElement>("#dots");
 const edgeGreeting = document.querySelector<HTMLElement>("#edgeGreeting");
 const detail = document.querySelector<HTMLElement>("#detail");
+const detailEyebrow = document.querySelector<HTMLElement>("#detailEyebrow");
 const detailTitle = document.querySelector<HTMLElement>("#detailTitle");
 const detailDescription = document.querySelector<HTMLElement>("#detailDescription");
 const detailLinks = document.querySelector<HTMLElement>("#detailLinks");
@@ -175,14 +176,27 @@ function setListMode(enabled: boolean): void {
 function openDetail(panel: HTMLElement): void {
   if (!detail || !detailTitle || !detailDescription || !detailLinks || !detailGrid) return;
   detailOpen = true;
+  const projectType = panel.querySelector<HTMLElement>(".panel__meta span")?.textContent?.trim();
+  if (detailEyebrow) detailEyebrow.textContent = projectType || "Project";
   detailTitle.textContent = panel.dataset.label || "Project";
-  detailDescription.textContent = panel.querySelector<HTMLElement>(".panel__description")?.textContent?.trim() || "";
+  detailDescription.textContent = panel.dataset.summary || panel.querySelector<HTMLElement>(".panel__description")?.textContent?.trim() || "";
   detailLinks.innerHTML = panel.querySelector<HTMLElement>(".links")?.innerHTML || "";
   detailGrid.innerHTML = "";
-  (panel.dataset.tags || "Build|Measure|Refine|Ship").split("|").slice(0, 4).forEach((tag) => {
+  const fallbackHighlights = (panel.dataset.tags || "Build|Measure|Refine|Ship").split("|").map((tag) => `${tag}::A defining part of the project.`);
+  (panel.dataset.highlights?.split("|") || fallbackHighlights).slice(0, 4).forEach((highlight, index) => {
+    const [title, description = ""] = highlight.split("::");
     const tile = document.createElement("div");
     tile.className = "detail__tile";
-    tile.textContent = tag;
+    const number = document.createElement("span");
+    number.className = "detail__index";
+    number.textContent = index < 9 ? `0${index + 1}` : String(index + 1);
+    const copy = document.createElement("div");
+    const heading = document.createElement("h3");
+    const body = document.createElement("p");
+    heading.textContent = title;
+    body.textContent = description;
+    copy.append(heading, body);
+    tile.append(number, copy);
     detailGrid.appendChild(tile);
   });
   detail.hidden = false;

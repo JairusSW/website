@@ -10,6 +10,7 @@ const labelNode = document.querySelector("#label");
 const dotsNode = document.querySelector("#dots");
 const edgeGreeting = document.querySelector("#edgeGreeting");
 const detail = document.querySelector("#detail");
+const detailEyebrow = document.querySelector("#detailEyebrow");
 const detailTitle = document.querySelector("#detailTitle");
 const detailDescription = document.querySelector("#detailDescription");
 const detailLinks = document.querySelector("#detailLinks");
@@ -169,18 +170,32 @@ function setListMode(enabled) {
         buildSpiral();
 }
 function openDetail(panel) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d, _e, _f;
     if (!detail || !detailTitle || !detailDescription || !detailLinks || !detailGrid)
         return;
     detailOpen = true;
+    const projectType = (_b = (_a = panel.querySelector(".panel__meta span")) === null || _a === void 0 ? void 0 : _a.textContent) === null || _b === void 0 ? void 0 : _b.trim();
+    if (detailEyebrow)
+        detailEyebrow.textContent = projectType || "Project";
     detailTitle.textContent = panel.dataset.label || "Project";
-    detailDescription.textContent = ((_b = (_a = panel.querySelector(".panel__description")) === null || _a === void 0 ? void 0 : _a.textContent) === null || _b === void 0 ? void 0 : _b.trim()) || "";
-    detailLinks.innerHTML = ((_c = panel.querySelector(".links")) === null || _c === void 0 ? void 0 : _c.innerHTML) || "";
+    detailDescription.textContent = panel.dataset.summary || ((_d = (_c = panel.querySelector(".panel__description")) === null || _c === void 0 ? void 0 : _c.textContent) === null || _d === void 0 ? void 0 : _d.trim()) || "";
+    detailLinks.innerHTML = ((_e = panel.querySelector(".links")) === null || _e === void 0 ? void 0 : _e.innerHTML) || "";
     detailGrid.innerHTML = "";
-    (panel.dataset.tags || "Build|Measure|Refine|Ship").split("|").slice(0, 4).forEach((tag) => {
+    const fallbackHighlights = (panel.dataset.tags || "Build|Measure|Refine|Ship").split("|").map((tag) => `${tag}::A defining part of the project.`);
+    (((_f = panel.dataset.highlights) === null || _f === void 0 ? void 0 : _f.split("|")) || fallbackHighlights).slice(0, 4).forEach((highlight, index) => {
+        const [title, description = ""] = highlight.split("::");
         const tile = document.createElement("div");
         tile.className = "detail__tile";
-        tile.textContent = tag;
+        const number = document.createElement("span");
+        number.className = "detail__index";
+        number.textContent = index < 9 ? `0${index + 1}` : String(index + 1);
+        const copy = document.createElement("div");
+        const heading = document.createElement("h3");
+        const body = document.createElement("p");
+        heading.textContent = title;
+        body.textContent = description;
+        copy.append(heading, body);
+        tile.append(number, copy);
         detailGrid.appendChild(tile);
     });
     detail.hidden = false;

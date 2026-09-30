@@ -53,7 +53,7 @@
           </div>
         </section>
 
-        <article class="panel project" id="panel-1" data-label="Wago" data-bg="#1f2d3a" data-fg="#efe8da" data-tags="JIT compiler|Pure Go|Plugin system|Native code" tabindex="-1">
+        <article class="panel project" id="panel-1" data-label="Wago" data-bg="#1f2d3a" data-fg="#efe8da" data-tags="JIT compiler|Pure Go|Plugin system|Native code" data-highlights="Native code::Compiles WebAssembly directly to machine code without CGO.|Portable runtime::Targets Linux, macOS, and Windows across amd64 and arm64.|Plugin architecture::Keeps WASI, the Component Model, and host capabilities outside the core runtime.|Standalone builds::Turns .wasm modules into compact native executables for distribution." tabindex="-1">
           <div class="panel__inner">
             <div class="panel__meta"><span>01 / Flagship</span><span>Go · WebAssembly</span></div>
             <p class="panel__description">A pure-Go, no-cgo WebAssembly JIT built around fast compilation, native execution, and a capability-aware plugin system.</p>
@@ -67,7 +67,7 @@
           </div>
         </article>
 
-        <article class="panel project" id="panel-2" data-label="json-as" data-bg="#6f8798" data-fg="#f4efe4" data-tags="Multi-GB/s|SIMD|SWAR|AssemblyScript" tabindex="-1">
+        <article class="panel project" id="panel-2" data-label="json-as" data-bg="#6f8798" data-fg="#f4efe4" data-tags="Multi-GB/s|SIMD|SWAR|AssemblyScript" data-highlights="Generated codecs::An AssemblyScript transform creates serializers from decorated types.|Fast paths::SIMD and SWAR implementations accelerate parsing and stringifying.|Flexible schemas::Supports aliases, conditional omission, nullable fields, enums, and custom codecs.|Practical tooling::Ships through npm with generated-code debugging, benchmarks, and full documentation." tabindex="-1">
           <div class="panel__inner">
             <div class="panel__meta"><span>02 / Open source</span><span>SIMD · SWAR</span></div>
             <p class="panel__description">Multi-GB/s JSON serialization for AssemblyScript, using carefully chosen SIMD and SWAR algorithms.</p>
@@ -81,7 +81,7 @@
           </div>
         </article>
 
-        <article class="panel project" id="panel-3" data-label="Impart" data-bg="#7b4d57" data-fg="#f4efe4" data-tags="Application security|Product engineering|Performance|Systems" tabindex="-1">
+        <article class="panel project" id="panel-3" data-label="Impart" data-bg="#7b4d57" data-fg="#f4efe4" data-tags="Application security|Product engineering|Performance|Systems" data-highlights="Inline protection::Policy enforcement runs in the request path to detect and block attacks.|Modern surfaces::Coverage spans LLMs, MCP servers, agents, APIs, and traditional web traffic.|Expressive policy::Code-based rules capture security logic beyond brittle regex and form builders.|Product engineering::I work across performance, systems, and product surfaces on the platform." tabindex="-1">
           <div class="panel__inner">
             <div class="panel__meta"><span>03 / Work</span><span>Security · Systems</span></div>
             <p class="panel__description">Building elegant, performant software for a modern application security platform.</p>
@@ -95,7 +95,7 @@
           </div>
         </article>
 
-        <article class="panel project" id="panel-4" data-label="Tools" data-bg="#607368" data-fg="#f4efe4" data-tags="as-test|Wide SIMD|Zep compiler|AssemblyScript" tabindex="-1">
+        <article class="panel project" id="panel-4" data-label="Tools" data-bg="#607368" data-fg="#f4efe4" data-tags="as-test|Wide SIMD|Zep compiler|AssemblyScript" data-summary="A collection of open-source experiments spanning testing, wide SIMD, language design, compilers, and WebAssembly." data-highlights="as-test::Runtime-agnostic AssemblyScript testing with mocks, snapshots, coverage, fuzzing, and parallel execution.|Wide::Portable v256 and v512 SIMD lowered to AVX-512, AVX2, or NEON through Wago.|Zep::A statically typed, TypeScript-inspired language with unions, narrowing, ownership, and pattern matching.|Open source::A broader collection of compiler, WebAssembly, and AssemblyScript experiments built in public." tabindex="-1">
           <div class="panel__inner">
             <div class="panel__meta"><span>04 / More projects</span><span>Made in public</span></div>
             <ul class="tool-list panel__description">
@@ -113,7 +113,7 @@
           </div>
         </article>
 
-        <article class="panel project" id="panel-5" data-label="Writing and docs" data-bg="#c19a57" data-fg="#1f2d3a" data-tags="Benchmarks|Algorithms|Documentation|Notes" tabindex="-1">
+        <article class="panel project" id="panel-5" data-label="Writing and docs" data-bg="#c19a57" data-fg="#1f2d3a" data-tags="Benchmarks|Algorithms|Documentation|Notes" data-highlights="Benchmarks::Reproducible measurements with enough methodology to understand the result.|Architecture::Notes on system boundaries, tradeoffs, and why the implementation took its shape.|Documentation::Runnable setup guides, API references, and examples for the tools I maintain.|Low-level notes::Algorithms, compiler techniques, and performance findings worth keeping around." tabindex="-1">
           <div class="panel__inner">
             <div class="panel__meta"><span>05 / Notes</span><span>Ideas, explained</span></div>
             <p class="panel__description">Benchmarks, low-level techniques, and documentation for the things I ship.</p>
