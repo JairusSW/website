@@ -34,7 +34,7 @@ button { font: inherit; }
 .contact dt { margin-bottom: .2rem; color: var(--accent); font-size: .66rem; }
 .contact dd { margin: 0; overflow-wrap: anywhere; font-size: clamp(.95rem, 1.2vw, 1.15rem); font-weight: 600; }
 
-.cv { padding: 0 var(--pad); }
+.resume { padding: 0 var(--pad); }
 .block { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.6fr); gap: 2rem; padding: clamp(2rem, 5vw, 4rem) 0; border-bottom: 1px solid var(--ink); }
 .block__label { position: sticky; top: 1.5rem; align-self: start; margin: 0; font-size: .78rem; font-weight: 500; }
 .block__label span { display: block; margin-bottom: .3rem; color: var(--accent); }
@@ -87,7 +87,7 @@ button { font: inherit; }
   .contact { grid-template-columns: repeat(4, 1fr); }
   .contact > div { padding: .4rem .4rem .4rem 0; }
   .contact dd { font-size: 9pt; }
-  .cv { padding: 0; }
+  .resume { padding: 0; }
   .block { grid-template-columns: 8rem 1fr; gap: 1rem; padding: 1rem 0; }
   .block__label { position: static; }
   .block__body { gap: 1rem; }

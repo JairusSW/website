@@ -39,6 +39,7 @@ jobs:
           mkdir -p _site/scripts/dist
           cp index.html og-editorial.png _site/
           cp -R styles _site/styles
+          cp -R resume _site/resume
           cp -R cv _site/cv
           cp scripts/dist/index.js _site/scripts/dist/index.js
           touch _site/.nojekyll
