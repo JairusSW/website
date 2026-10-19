@@ -65,6 +65,9 @@ button { border: 0; }
 .intro__copy { position: absolute; top: 18%; right: var(--pad); width: 31%; font-size: clamp(.65rem, 1.05vw, 1rem); line-height: 1.65; }
 .intro__copy p { margin: 0 0 1rem; }
 .intro__copy a { color: var(--accent); text-underline-offset: .25em; }
+.intro__copy .intro__links { margin-top: 1.4rem; }
+.intro__copy .intro__links a { color: inherit; }
+.intro__copy .intro__links a:hover { color: var(--accent); }
 
 .title { margin: 0; font-size: clamp(3.2rem, 8vw, 9rem); line-height: .82; letter-spacing: -.075em; }
 .title span { display: block; }
@@ -106,12 +109,19 @@ button { border: 0; }
 .spiral-line { position: fixed; inset: 0; z-index: 35; width: 100%; height: 100%; pointer-events: none; opacity: .38; }
 .is-spiraling .spiral-line { pointer-events: auto; cursor: pointer; }
 .is-spiraling .viewport { pointer-events: none; }
-.edge-message { position: fixed; left: 6vw; bottom: 5vw; z-index: 50; color: currentColor; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .3s; }
+.edge-message { position: fixed; left: 6vw; bottom: 5vw; z-index: 50; display: flex; flex-direction: column; color: currentColor; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .3s; }
 .is-spiraling .edge-message { opacity: 1; visibility: visible; }
 .is-spiraling .edge-message a { pointer-events: auto; }
 .edge-message p { margin: 0 0 1rem; font-size: clamp(5rem, 15vw, 15rem); font-weight: 800; line-height: .8; letter-spacing: -.08em; }
 .edge-message p.has-solid-shadow { text-shadow: .065em .08em 0 #fff; }
-.edge-message div { display: flex; gap: 1.5rem; font-family: "DM Mono", monospace; text-transform: uppercase; }
+.edge-links { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; font-family: "DM Mono", monospace; text-transform: uppercase; }
+.edge-details { display: none; order: -1; grid-template-columns: repeat(3, auto); justify-content: start; gap: 1.2rem 3rem; margin: 0 0 3rem; color: #fff; }
+.edge-details dt { margin-bottom: .3rem; color: var(--accent); font-family: "DM Mono", monospace; font-size: .68rem; text-transform: uppercase; letter-spacing: .055em; }
+.edge-details dd { margin: 0; font-size: clamp(1rem, 1.6vw, 1.5rem); font-weight: 700; letter-spacing: -.02em; }
+.edge-details a { text-decoration-thickness: 1px; text-underline-offset: .25em; }
+.edge-details a:hover { color: var(--accent); }
+.edge-message p.has-solid-shadow ~ .edge-details { display: grid; }
+.edge-message p.has-solid-shadow ~ .edge-links { display: none; }
 
 .progress { position: fixed; z-index: 100; top: 8vh; right: 2vw; display: flex; flex-direction: column; align-items: center; gap: 1rem; color: var(--active-fg); font-size: .62rem; transition: color .2s; }
 .progress__count { writing-mode: vertical-rl; transform: rotate(180deg); }
@@ -172,6 +182,8 @@ body.list-mode .controls > span, body.list-mode .controls [data-prev], body.list
   .scroll-cue { right: 1.15rem; bottom: 1.15rem; width: 20vw; height: 30vw; }
   .progress { right: 1rem; }
   .controls { left: 1rem; right: auto; }
+  .edge-message { bottom: 5rem; }
+  .edge-details { grid-template-columns: repeat(2, auto); gap: 1rem 2rem; margin-bottom: 2rem; }
   .controls [data-mode] { display: none; }
   .controls > span { min-width: 6.5rem; }
 }

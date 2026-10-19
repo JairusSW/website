@@ -35,7 +35,15 @@
 
     <aside class="edge-message" aria-hidden="true">
       <p id="edgeGreeting">Hello.</p>
-      <div><a href="mailto:me@jairus.dev">Email</a><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">GitHub</a></div>
+      <div class="edge-links"><a href="./cv/">CV</a><a href="mailto:me@jairus.dev">Email</a><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">GitHub</a><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">LinkedIn</a></div>
+      <dl class="edge-details">
+        <div><dt>Email</dt><dd><a href="mailto:me@jairus.dev">me@jairus.dev</a></dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:+13603403716">(360) 340-3716</a></dd></div>
+        <div><dt>Based in</dt><dd>Poulsbo, WA</dd></div>
+        <div><dt>GitHub</dt><dd><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">JairusSW</a></dd></div>
+        <div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">in/jairussw</a></dd></div>
+        <div><dt>CV</dt><dd><a href="./cv/">Full CV ↗</a></dd></div>
+      </dl>
     </aside>
 
     <main class="viewport" aria-label="Jairus Tanaka portfolio">
@@ -47,6 +55,7 @@
             <div class="intro__copy">
               <p>I build fast, elegant software close to the metal—compilers, WebAssembly runtimes, and the tools around them.</p>
               <a href="mailto:me@jairus.dev">Available for the right problem.</a>
+              <div class="links intro__links"><a href="./cv/">CV ↗</a><a href="mailto:me@jairus.dev">Email ↗</a><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div>
             </div>
             <h1 class="title"><span>Jairus</span><span>Tanaka</span><span class="accent">builds.</span></h1>
             <button class="scroll-cue" type="button" data-next><span class="scroll-cue__spiral" aria-hidden="true"></span><strong>Scroll</strong><small>↓ →</small></button>
@@ -81,9 +90,23 @@
           </div>
         </article>
 
-        <article class="panel project" id="panel-3" data-label="json-as" data-bg="#6f8798" data-fg="#f4efe4" data-tags="Multi-GB/s|SIMD|SWAR|AssemblyScript" data-highlights="Generated codecs::An AssemblyScript transform creates serializers from decorated types.|Fast paths::SIMD and SWAR implementations accelerate parsing and stringifying.|Flexible schemas::Supports aliases, conditional omission, nullable fields, enums, and custom codecs.|Practical tooling::Ships through npm with generated-code debugging, benchmarks, and full documentation." tabindex="-1">
+        <article class="panel project" id="panel-3" data-label="AssemblyScript" data-bg="#8f5a42" data-fg="#f4efe4" data-tags="Compiler|TypeScript-like|WebAssembly|Standard library" data-highlights="The language::A TypeScript-like language that compiles ahead of time to small, highly optimized WebAssembly.|Compiler::Contributing to and leading development of the compiler, its code generation, and its optimizations.|Runtime &amp; stdlib::Runtime optimizations and standard library improvements that keep generated modules fast and lean.|Ecosystem::Tooling and libraries around the language, including json-as and as-test." tabindex="-1">
           <div class="panel__inner">
-            <div class="panel__meta"><span>03 / Open source</span><span>SIMD · SWAR</span></div>
+            <div class="panel__meta"><span>03 / Maintainer</span><span>TypeScript · WebAssembly</span></div>
+            <p class="panel__description">A TypeScript-like language that compiles to highly optimized WebAssembly. I maintain it and help lead compiler, runtime, and standard library work.</p>
+            <div class="panel__bottom">
+              <div><p class="eyebrow">Maintainer since 2026</p><h2 class="title"><span>Assembly</span><span class="accent">Script</span></h2></div>
+              <div class="panel__actions">
+                <div class="links"><a href="https://www.assemblyscript.org/" target="_blank" rel="noreferrer">Website ↗</a><a href="https://github.com/AssemblyScript/assemblyscript" target="_blank" rel="noreferrer">Source ↗</a><a href="https://www.npmjs.com/package/assemblyscript" target="_blank" rel="noreferrer">npm ↗</a></div>
+                <button class="view-button" type="button" data-view><span class="view-button__eye" aria-hidden="true"><i></i></span><strong>View</strong></button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel project" id="panel-4" data-label="json-as" data-bg="#6f8798" data-fg="#f4efe4" data-tags="Multi-GB/s|SIMD|SWAR|AssemblyScript" data-highlights="Generated codecs::An AssemblyScript transform creates serializers from decorated types.|Fast paths::SIMD and SWAR implementations accelerate parsing and stringifying.|Flexible schemas::Supports aliases, conditional omission, nullable fields, enums, and custom codecs.|Practical tooling::Ships through npm with generated-code debugging, benchmarks, and full documentation." tabindex="-1">
+          <div class="panel__inner">
+            <div class="panel__meta"><span>04 / Open source</span><span>SIMD · SWAR</span></div>
             <p class="panel__description">Multi-GB/s JSON serialization for AssemblyScript, using carefully chosen SIMD and SWAR algorithms.</p>
             <div class="panel__bottom">
               <div><p class="eyebrow">Performance without mystery</p><h2 class="title title--single"><span>json</span><span class="accent">-as</span></h2></div>
@@ -95,23 +118,23 @@
           </div>
         </article>
 
-        <article class="panel project" id="panel-4" data-label="Impart" data-bg="#7b4d57" data-fg="#f4efe4" data-tags="Application security|Product engineering|Performance|Systems" data-highlights="Inline protection::Policy enforcement runs in the request path to detect and block attacks.|Modern surfaces::Coverage spans LLMs, MCP servers, agents, APIs, and traditional web traffic.|Expressive policy::Code-based rules capture security logic beyond brittle regex and form builders.|Product engineering::I work across performance, systems, and product surfaces on the platform." tabindex="-1">
+        <article class="panel project" id="panel-5" data-label="Impart" data-bg="#7b4d57" data-fg="#f4efe4" data-tags="Application security|Product engineering|Performance|Systems" data-highlights="Inline protection::Policy enforcement runs in the request path to detect and block attacks.|Modern surfaces::Coverage spans LLMs, MCP servers, agents, APIs, and traditional web traffic.|Expressive policy::Code-based rules capture security logic beyond brittle regex and form builders.|Product engineering::I work across performance, systems, and product surfaces on the platform." tabindex="-1">
           <div class="panel__inner">
-            <div class="panel__meta"><span>04 / Work</span><span>Security · Systems</span></div>
+            <div class="panel__meta"><span>05 / Work</span><span>Security · Systems</span></div>
             <p class="panel__description">Building elegant, performant software for a modern application security platform.</p>
             <div class="panel__bottom">
               <div><p class="eyebrow">Software engineer</p><h2 class="title title--single"><span>Im</span><span>part</span></h2></div>
               <div class="panel__actions">
-                <div class="links"><a href="https://www.impart.ai/" target="_blank" rel="noreferrer">Company ↗</a><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">Experience ↗</a></div>
+                <div class="links"><a href="https://www.impart.ai/" target="_blank" rel="noreferrer">Company ↗</a><a href="./cv/">Experience ↗</a></div>
                 <button class="view-button" type="button" data-view><span class="view-button__eye" aria-hidden="true"><i></i></span><strong>View</strong></button>
               </div>
             </div>
           </div>
         </article>
 
-        <article class="panel project" id="panel-5" data-label="Tools" data-bg="#607368" data-fg="#f4efe4" data-tags="as-test|Wide SIMD|Zep compiler|AssemblyScript" data-summary="A collection of open-source experiments spanning testing, wide SIMD, language design, compilers, and WebAssembly." data-highlights="as-test::Runtime-agnostic AssemblyScript testing with mocks, snapshots, coverage, fuzzing, and parallel execution.|Wide::Portable v256 and v512 SIMD lowered to AVX-512, AVX2, or NEON through Wago.|Zep::A statically typed, TypeScript-inspired language with unions, narrowing, ownership, and pattern matching.|Open source::A broader collection of compiler, WebAssembly, and AssemblyScript experiments built in public." tabindex="-1">
+        <article class="panel project" id="panel-6" data-label="Tools" data-bg="#607368" data-fg="#f4efe4" data-tags="as-test|Wide SIMD|Zep compiler|AssemblyScript" data-summary="A collection of open-source experiments spanning testing, wide SIMD, language design, compilers, and WebAssembly." data-highlights="as-test::Runtime-agnostic AssemblyScript testing with mocks, snapshots, coverage, fuzzing, and parallel execution.|Wide::Portable v256 and v512 SIMD lowered to AVX-512, AVX2, or NEON through Wago.|Zep::A statically typed, TypeScript-inspired language with unions, narrowing, ownership, and pattern matching.|Open source::A broader collection of compiler, WebAssembly, and AssemblyScript experiments built in public." tabindex="-1">
           <div class="panel__inner">
-            <div class="panel__meta"><span>05 / More projects</span><span>Made in public</span></div>
+            <div class="panel__meta"><span>06 / More projects</span><span>Made in public</span></div>
             <ul class="tool-list panel__description">
               <li><a href="https://github.com/JairusSW/as-test" target="_blank" rel="noreferrer"><strong>as-test</strong><span>Testing for AssemblyScript ↗</span></a></li>
               <li><a href="https://github.com/JairusSW/wide" target="_blank" rel="noreferrer"><strong>Wide</strong><span>Portable v256 / v512 SIMD ↗</span></a></li>
@@ -127,9 +150,9 @@
           </div>
         </article>
 
-        <article class="panel project" id="panel-6" data-label="Writing and docs" data-bg="#c19a57" data-fg="#1f2d3a" data-tags="Benchmarks|Algorithms|Documentation|Notes" data-highlights="Benchmarks::Reproducible measurements with enough methodology to understand the result.|Architecture::Notes on system boundaries, tradeoffs, and why the implementation took its shape.|Documentation::Runnable setup guides, API references, and examples for the tools I maintain.|Low-level notes::Algorithms, compiler techniques, and performance findings worth keeping around." tabindex="-1">
+        <article class="panel project" id="panel-7" data-label="Writing and docs" data-bg="#c19a57" data-fg="#1f2d3a" data-tags="Benchmarks|Algorithms|Documentation|Notes" data-highlights="Benchmarks::Reproducible measurements with enough methodology to understand the result.|Architecture::Notes on system boundaries, tradeoffs, and why the implementation took its shape.|Documentation::Runnable setup guides, API references, and examples for the tools I maintain.|Low-level notes::Algorithms, compiler techniques, and performance findings worth keeping around." tabindex="-1">
           <div class="panel__inner">
-            <div class="panel__meta"><span>06 / Notes</span><span>Ideas, explained</span></div>
+            <div class="panel__meta"><span>07 / Notes</span><span>Ideas, explained</span></div>
             <p class="panel__description">Benchmarks, low-level techniques, and documentation for the things I ship.</p>
             <div class="panel__bottom">
               <div><p class="eyebrow">Write it down</p><h2 class="title"><span>Docs</span><span>&amp; words.</span></h2></div>
@@ -141,13 +164,13 @@
           </div>
         </article>
 
-        <section class="panel contact" id="panel-7" data-label="Contact" data-bg="#29343c" data-fg="#efe8da" tabindex="-1">
+        <section class="panel contact" id="panel-8" data-label="Contact" data-bg="#29343c" data-fg="#efe8da" tabindex="-1">
           <div class="panel__inner">
-            <div class="panel__meta"><span>07 / The center</span><span>Poulsbo, WA</span></div>
+            <div class="panel__meta"><span>08 / The center</span><span>Poulsbo, WA</span></div>
             <p class="panel__description">Compilers, WebAssembly, performance, or an unusually hard systems problem—I’d like to hear about it.</p>
             <div class="panel__bottom">
               <div><p class="eyebrow">You made it.</p><h2 class="title"><span>Let's</span><span>build</span><span class="accent">fast.</span></h2></div>
-              <div class="panel__actions"><div class="links"><a href="mailto:me@jairus.dev">Email ↗</a><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="https://www.npmjs.com/~jairussw" target="_blank" rel="noreferrer">npm ↗</a></div></div>
+              <div class="panel__actions"><div class="links"><a href="./cv/">CV ↗</a><a href="mailto:me@jairus.dev">Email ↗</a><a href="https://github.com/JairusSW" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/jairussw/" target="_blank" rel="noreferrer">LinkedIn ↗</a></div></div>
             </div>
           </div>
         </section>
@@ -155,7 +178,7 @@
     </main>
 
     <nav class="progress" aria-label="Portfolio sections">
-      <span class="progress__count"><b id="current">1</b> / <b id="total">8</b></span>
+      <span class="progress__count"><b id="current">1</b> / <b id="total">9</b></span>
       <div class="progress__dots" id="dots"></div>
     </nav>
 
