@@ -24,14 +24,17 @@
         <a class="mark" href="../" aria-label="Back to portfolio">JT</a>
         <div class="topbar__links">
           <a href="../">← Portfolio</a>
-          <a href="./jairus-tanaka-resume.pdf" download>Download PDF ↓</a>
           <button type="button" onclick="window.print()">Print</button>
+          <a class="pdf-button" href="./jairus-tanaka-resume.pdf" download>Download PDF ↓</a>
         </div>
       </nav>
 
       <div class="masthead__grid">
         <h1 class="name"><span>Jairus</span><span>Tanaka<b>.</b></span></h1>
-        <p class="lede">Software, systems, and performance engineer. I build compilers, WebAssembly runtimes, and the tools around them.</p>
+        <div class="masthead__aside">
+          <p class="lede">Software, systems, and performance engineer. I build compilers, WebAssembly runtimes, and the tools around them.</p>
+          <a class="pdf-button pdf-button--large" href="./jairus-tanaka-resume.pdf" download>Download resume <span>PDF ↓</span></a>
+        </div>
       </div>
 
       <dl class="contact">
@@ -144,7 +147,10 @@
 
     <footer class="footer">
       <p>Compilers, WebAssembly, performance, or an unusually hard systems problem—I’d like to hear about it.</p>
-      <a href="mailto:me@jairus.dev">me@jairus.dev ↗</a>
+      <div class="footer__actions">
+        <a class="pdf-button pdf-button--large" href="./jairus-tanaka-resume.pdf" download>Download resume <span>PDF ↓</span></a>
+        <a class="footer__email" href="mailto:me@jairus.dev">me@jairus.dev ↗</a>
+      </div>
     </footer>
   </body>
 </html>
